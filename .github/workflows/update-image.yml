@@ -1,0 +1,26 @@
+name: Update Docker Image Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Docker Image Tag'
+        required: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Infra Repo
+        uses: actions/checkout@v3
+
+      - name: Update Image Tag in Dev Values
+        run: |
+          sed -i "s/tag: .*/tag: ${{ github.event.inputs.image_tag }}/g" environments/dev/values-dev.yaml
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git commit -am "Update image tag to ${{ github.event.inputs.image_tag }}"
+          git push
