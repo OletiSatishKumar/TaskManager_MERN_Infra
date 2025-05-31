@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/OletiSatishKumar/TaskManager_MERN_Infra.git
-    targetRevision: main
+    targetRevision: master
     path: helm/taskmanager
     helm:
       valueFiles:
