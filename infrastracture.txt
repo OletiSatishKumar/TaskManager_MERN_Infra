@@ -1,0 +1,27 @@
+TaskManager_MERN_Infra/
+├── .github/
+│   └── workflows/
+│       └── update-image.yml
+│
+├── helm/
+│   └── taskmanager/
+│       ├── Chart.yaml
+│       ├── values.yaml
+│       ├── templates/
+│       │   ├── deployment-backend.yaml
+│       │   ├── deployment-client.yaml
+│       │   ├── service-backend.yaml
+│       │   ├── service-client.yaml
+│       │   └── ingress.yaml
+│
+├── environments/
+│   ├── dev/
+│   │   └── values-dev.yaml
+│   ├── prod/
+│   │   └── values-prod.yaml
+│
+├── argocd/                               
+│   ├── taskmanager-dev.yaml              # Argo CD App for Dev cluster
+│   └── taskmanager-prod.yaml             # Argo CD App for Prod cluster
+│
+└── README.md

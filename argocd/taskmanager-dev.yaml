@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: taskmanager-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/OletiSatishKumar/TaskManager_MERN_Infra.git
+    targetRevision: main
+    path: helm/taskmanager
+    helm:
+      valueFiles:
+        - ../../environments/dev/values-dev.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
