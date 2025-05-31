@@ -6,22 +6,21 @@ TaskManager_MERN_Infra/
 ├── helm/
 │   └── taskmanager/
 │       ├── Chart.yaml
-│       ├── values.yaml
+│       ├── values.yaml                     # Shared defaults
 │       ├── templates/
 │       │   ├── deployment-backend.yaml
 │       │   ├── deployment-client.yaml
 │       │   ├── service-backend.yaml
 │       │   ├── service-client.yaml
-│       │   └── ingress.yaml
+│       │   ├── ingress.yaml
+│       │   └── namespace.yaml              # Optional
 │
 ├── environments/
 │   ├── dev/
-│   │   └── values-dev.yaml
+│   │   ├── dev-values.yaml
+│   │   └── taskmanager-dev.yaml            # Argo CD App for Dev
 │   ├── prod/
-│   │   └── values-prod.yaml
-│
-├── argocd/                               
-│   ├── taskmanager-dev.yaml              # Argo CD App for Dev cluster
-│   └── taskmanager-prod.yaml             # Argo CD App for Prod cluster
+│   │   ├── prod-values.yaml
+│   │   └── taskmanager-prod.yaml           # Argo CD App for Prod
 │
 └── README.md
