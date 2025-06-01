@@ -1,24 +1,42 @@
-name: Update Image Tag and Trigger ArgoCD Sync
+name: Update Helm Image Tags
 
 on:
   repository_dispatch:
-    types: [image-pushed]
+    types: [update-image]
 
 jobs:
   update-values:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Infra Repo
         uses: actions/checkout@v3
 
-      - name: Update dev-values.yaml with new image tag
+      - name: Install yq
         run: |
-          sed -i "s|tag:.*|tag: '${{ github.event.client_payload.image_tag }}'|" helm/values/dev-values.yaml
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Update dev-values.yaml
+        run: |
+          BACKEND_TAG="${{ github.event.client_payload.backend_tag }}"
+          FRONTEND_TAG="${{ github.event.client_payload.frontend_tag }}"
+          FILE="helm/values/dev-values.yaml"
+
+          if [[ -n "$BACKEND_TAG" ]]; then
+            echo "Updating backend tag to $BACKEND_TAG"
+            yq e ".backend.image.tag = \"$BACKEND_TAG\"" -i $FILE
+          fi
+
+          if [[ -n "$FRONTEND_TAG" ]]; then
+            echo "Updating frontend tag to $FRONTEND_TAG"
+            yq e ".client.image.tag = \"$FRONTEND_TAG\"" -i $FILE
+          fi
 
       - name: Commit and Push
         run: |
-          git config user.name "GitHub Actions"
+          git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add helm/values/dev-values.yaml
-          git commit -m "Update image tag to ${{ github.event.client_payload.image_tag }}"
-          git push
+          git commit -m "Update image tags to backend:${{ github.event.client_payload.backend_tag }} frontend:${{ github.event.client_payload.frontend_tag }} [skip ci]" || echo "No changes to commit"
+          git push origin master

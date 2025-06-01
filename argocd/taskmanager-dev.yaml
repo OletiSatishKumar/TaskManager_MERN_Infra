@@ -7,17 +7,15 @@ spec:
   project: default
   source:
     repoURL: https://github.com/OletiSatishKumar/TaskManager_MERN_Infra.git
-    targetRevision: master
-    path: helm/taskmanager
+    targetRevision: HEAD
+    path: helm/charts/taskmanager
     helm:
       valueFiles:
-        - ../../environments/dev/dev-values.yaml
+        - ../../values/dev-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: dev
+    namespace: taskmanager-dev
   syncPolicy:
     automated:
-      selfHeal: true
       prune: true
-    syncOptions:
-      - CreateNamespace=true
+      selfHeal: true
