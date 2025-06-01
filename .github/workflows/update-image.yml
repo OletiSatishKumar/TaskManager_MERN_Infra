@@ -1,26 +1,24 @@
-name: Update Docker Image Tag
+name: Update Image Tag and Trigger ArgoCD Sync
 
 on:
-  workflow_dispatch:
-    inputs:
-      image_tag:
-        description: 'Docker Image Tag'
-        required: true
+  repository_dispatch:
+    types: [image-pushed]
 
 jobs:
-  update:
+  update-values:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Infra Repo
         uses: actions/checkout@v3
 
-      - name: Update Image Tag in Dev Values
+      - name: Update dev-values.yaml with new image tag
         run: |
-          sed -i "s/tag: .*/tag: ${{ github.event.inputs.image_tag }}/g" environments/dev/values-dev.yaml
+          sed -i "s|tag:.*|tag: '${{ github.event.client_payload.image_tag }}'|" helm/values/dev-values.yaml
 
       - name: Commit and Push
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git commit -am "Update image tag to ${{ github.event.inputs.image_tag }}"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add helm/values/dev-values.yaml
+          git commit -m "Update image tag to ${{ github.event.client_payload.image_tag }}"
           git push
