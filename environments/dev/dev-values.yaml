@@ -1,12 +1,12 @@
 backend:
   image:
     repository: docker.io/satishosk/taskmanager-backend
-    tag: 20250601145613
+    tag: "20250601153101"
   replicas: 1
 client:
   image:
     repository: docker.io/satishosk/taskmanager-client
-    tag: 20250601145613
+    tag: "20250601153101"
   replicas: 1
 resources:
   limits:
