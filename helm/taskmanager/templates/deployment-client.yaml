@@ -1,19 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: {{ include "taskmanager.fullname" . }}-client
+  labels:
+    app: {{ include "taskmanager.fullname" . }}-client
 spec:
   replicas: {{ .Values.client.replicaCount }}
   selector:
     matchLabels:
-      app: frontend
+      app: {{ include "taskmanager.fullname" . }}-client
   template:
     metadata:
       labels:
-        app: frontend
+        app: {{ include "taskmanager.fullname" . }}-client
     spec:
       containers:
-        - name: frontend
+        - name: client
           image: "{{ .Values.client.image.repository }}:{{ .Values.client.image.tag }}"
           ports:
             - containerPort: 3000

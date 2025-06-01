@@ -13,7 +13,6 @@ TaskManager_MERN_Infra/
 │       │   ├── service-backend.yaml
 │       │   ├── service-client.yaml
 │       │   ├── ingress.yaml
-│       │   └── namespace.yaml              # Optional
 │
 ├── environments/
 │   ├── dev/

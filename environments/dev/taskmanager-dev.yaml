@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/OletiSatishKumar/TaskManager_MERN_Infra.git
-    targetRevision: HEAD
-    path: helm/charts/taskmanager
+    repoURL: https://github.com/OletiSatishKumar/TaskManager_MERN_Infra
+    targetRevision: master
+    path: helm/taskmanager
     helm:
       valueFiles:
         - ../../environments/dev/dev-values.yaml

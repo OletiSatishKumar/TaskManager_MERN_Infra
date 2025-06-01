@@ -1,16 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: {{ include "taskmanager.fullname" . }}-backend
+  labels:
+    app: {{ include "taskmanager.fullname" . }}-backend
 spec:
   replicas: {{ .Values.backend.replicaCount }}
   selector:
     matchLabels:
-      app: backend
+      app: {{ include "taskmanager.fullname" . }}-backend
   template:
     metadata:
       labels:
-        app: backend
+        app: {{ include "taskmanager.fullname" . }}-backend
     spec:
       containers:
         - name: backend
