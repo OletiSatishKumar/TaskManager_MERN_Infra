@@ -11,10 +11,10 @@ spec:
     path: helm/charts/taskmanager
     helm:
       valueFiles:
-        - ../../values/dev-values.yaml
+        - ../../environments/dev/dev-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: taskmanager-dev
+    namespace: dev
   syncPolicy:
     automated:
       prune: true
